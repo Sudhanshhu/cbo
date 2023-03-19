@@ -83,6 +83,7 @@ class _EmployeeFormScreenState extends State<EmployeeFormScreen> {
                       children: [
                         textFormTitle("Employee Code"),
                         CustomTextForm(
+                            keyBoardType: TextInputType.number,
                             editable: employeeCodeEditable,
                             suffixIcon: !employeeCodeEditable
                                 ? null
@@ -99,6 +100,9 @@ class _EmployeeFormScreenState extends State<EmployeeFormScreen> {
                             validator: (String? value) {
                               if (value == null || value.isEmpty) {
                                 return "Please enter code";
+                              }
+                              if (int.tryParse(value) == null) {
+                                return "Please enter valid number";
                               }
                               return null;
                             },
@@ -203,7 +207,7 @@ class _EmployeeFormScreenState extends State<EmployeeFormScreen> {
                               return null;
                             },
                             onchange: (String? value) {},
-                            hintText: "Date of birth in dd-mm-yyyy"),
+                            hintText: "Date of birth in dd/mm/yyyy"),
                         textFormTitle("Remarks"),
                         CustomTextForm(
                             borderColor: color,
@@ -264,7 +268,7 @@ class _EmployeeFormScreenState extends State<EmployeeFormScreen> {
                             if (!employeeCodeEditable)
                               Center(
                                 child: OutlinedButton(
-                                  onPressed: () {
+                                  onPressed: () async {
                                     EmployeeModel newEmployee = EmployeeModel(
                                         employeeCode: int.parse(
                                             employeeCodeController.text),
@@ -275,8 +279,25 @@ class _EmployeeFormScreenState extends State<EmployeeFormScreen> {
                                         mobileNo: mobileNoController.text,
                                         remarks: remarkController.text);
 
-                                    deleteConfirmationAlertDialog(
-                                        context, newEmployee);
+                                    var confirmed =
+                                        await deleteConfirmationAlertDialog(
+                                            context, newEmployee);
+                                    if (confirmed) {
+                                      try {
+                                        setState(() {
+                                          isLoading = true;
+                                        });
+                                        FirestoreDb.deleteEmployee(
+                                                newEmployee.employeeCode)
+                                            .then((value) =>
+                                                Navigator.of(context).pop());
+                                      } catch (e) {
+                                        ShowMsgUtils.showsnackBar(
+                                            title:
+                                                "Cannot delete employee something went wrong",
+                                            color: Colors.red);
+                                      }
+                                    }
                                   },
                                   child: const Text("Delete"),
                                 ),

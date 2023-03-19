@@ -40,9 +40,21 @@ class HomePage extends StatelessWidget {
                           itemBuilder: (context, index) {
                             EmployeeModel employee = snapshot.data![index];
                             return ListTile(
-                              onLongPress: () {
-                                deleteConfirmationAlertDialog(
-                                    context, employee);
+                              onTap: () async {
+                                bool confirmed =
+                                    await deleteConfirmationAlertDialog(
+                                        context, employee);
+                                if (confirmed) {
+                                  try {
+                                    FirestoreDb.deleteEmployee(
+                                        employee.employeeCode);
+                                  } catch (e) {
+                                    ShowMsgUtils.showsnackBar(
+                                        title:
+                                            "Cannot delete employee something went wrong",
+                                        color: Colors.red);
+                                  }
+                                }
                               },
                               trailing: IconButton(
                                 icon: const Icon(Icons.edit),

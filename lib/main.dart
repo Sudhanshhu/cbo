@@ -1,4 +1,5 @@
 // import 'package:cbo_employee/screen/auth/google_signin_screen.dart';
+import 'package:cbo_employee/screen/auth/sign_up_screen.dart';
 import 'package:cbo_employee/screen/employee_form.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "employeeFormScreen": (context) => const EmployeeFormScreen(),
         "homePage": (context) => const HomePage(),
+        "signUpScreen": (context) => const SignUpScreen()
         // "googleSignInPage": (context) => const GoogleSignInPage(),
       },
       home: const SignInScreen(),

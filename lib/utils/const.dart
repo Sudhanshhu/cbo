@@ -1,4 +1,3 @@
-import 'package:cbo_employee/service/firestore_db.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -31,13 +30,12 @@ Future<dynamic> deleteConfirmationAlertDialog(
         actions: [
           TextButton(
               onPressed: () async {
-                FirestoreDb.deleteEmployee(employee.employeeCode)
-                    .then((value) => Navigator.of(context).pop());
+                Navigator.of(context).pop(true);
               },
               child: const Text("Yes")),
           TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(false);
               },
               child: const Text("No")),
         ],

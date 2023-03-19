@@ -10,7 +10,7 @@ class CustomTextForm extends StatelessWidget {
   final int? maxLength;
   final int? maxLine;
   final Widget? suffixIcon;
-  final Color borderColor;
+  final Color? borderColor;
   final TextInputType? keyBoardType;
   final bool? editable;
 
@@ -18,12 +18,12 @@ class CustomTextForm extends StatelessWidget {
     Key? key,
     required this.controller,
     required this.validator,
-    required this.onchange,
+    this.onchange,
     required this.hintText,
     this.maxLength,
     this.maxLine,
     this.suffixIcon,
-    required this.borderColor,
+    this.borderColor,
     this.keyBoardType,
     this.editable,
   }) : super(key: key);
@@ -54,9 +54,8 @@ class CustomTextForm extends StatelessWidget {
                 borderSide:
                     const BorderSide(color: Colors.indigo // borderColor,
                         )),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: BorderSide(color: borderColor)),
+            enabledBorder:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
             hintText: hintText,
             suffixIcon: suffixIcon ??
                 IconButton(

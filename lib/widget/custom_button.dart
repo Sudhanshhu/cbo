@@ -14,7 +14,7 @@ class LogOutBtn extends StatelessWidget {
       onTap: () async {
         await Provider.of<AuthProvider>(context, listen: false).signOut();
 
-        Navigator.of(context).pop();
+        // Navigator.of(context).pop();
       },
       child: Container(
         decoration: BoxDecoration(
